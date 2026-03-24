@@ -7,12 +7,12 @@ Possible Projects as baselines: https://github.com/Bhavik-Jikadara/fake-news-det
 Alternative Direction Real vs. AI celebrety Tweets: https://github.com/abaghyangor/ripgor/tree/main
 - uses the '''https://www.kaggle.com/datasets/abaghyangor/celebrity-tweets''' as Dataset
 
-**Project Description:
+**Project Description:**
 
 
-***Defining the Problem Setting:
+***Defining the Problem Setting:***
 
 
-***Define the Evaluation Protocol:
+***Define the Evaluation Protocol:***
 
-***...
+***...***
