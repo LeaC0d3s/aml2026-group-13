@@ -7,6 +7,7 @@ from kagglehub import KaggleDatasetAdapter
 file_path = ""
 
 # Load the latest version
+# Alternative Dataset: "abaghyangor/celebrity-tweets"
 df = kagglehub.load_dataset(
   KaggleDatasetAdapter.PANDAS,
   "bhavikjikadara/fake-news-detection",
