@@ -5,7 +5,7 @@ Possible Projects as baselines: https://github.com/Bhavik-Jikadara/fake-news-det
 - uses the '''https://www.kaggle.com/datasets/bhavikjikadara/fake-news-detection''' as Dataset
 
 
-### Formal Problem Setting:
+### Formal Problem Setting: (Draft)
 
 We define the task of fake news detection as a supervised binary classification problem on natural language sequences. In this setting, we are given a news article represented as a sequence of tokens. Our objective is to learn a mapping function that takes both the sequence and a vector of hand-crafted linguistic features as input to predict a specific label. The output label represents the veracity of the article, where a value of one denotes fake news, representing fabricated or misleading content, and a value of zero denotes real news, representing verified factual reporting. The hand-crafted feature vector specifically captures external markers such as sentiment, readability, and lexical diversity extracted from the text.
 
