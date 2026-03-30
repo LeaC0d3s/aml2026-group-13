@@ -12,6 +12,20 @@ Possible Projects as baselines: https://github.com/Bhavik-Jikadara/fake-news-det
 
 We define the task of fake news detection as a supervised binary classification problem on natural language sequences. In this setting, we are given a news article represented as a sequence of tokens. Our objective is to learn a mapping function that takes both the sequence and a vector of hand-crafted linguistic features as input to predict a specific label. The output label represents the veracity of the article, where a value of one denotes fake news, representing fabricated or misleading content, and a value of zero denotes real news, representing verified factual reporting. The hand-crafted feature vector specifically captures external markers such as sentiment, readability, and lexical diversity extracted from the text.
 
+Formally, let $\mathcal{V}$ be a vocabulary. Given a news article represented as a token sequence
+
+$$\mathbf{x} = (x_1, x_2, \ldots, x_T),\ x_t \in \mathcal{V}$$
+
+and a vector capturing external markers
+
+$$\mathbf{z} = \phi(\mathbf{x}) \in \mathbb{R}^d$$
+
+we learn a mapping
+
+$$f_{\boldsymbol{\theta}} : (\mathbf{x}, \mathbf{z}) \rightarrow \hat{y} \in \{0, 1\}$$
+
+where $y = 1$ denotes fake news and $y = 0$ denotes real news.
+
 #### Goal:
 
 Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of seventy percent for training, fifteen percent for validation, and fifteen percent for final testing. To measure the model’s ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric. Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall.
