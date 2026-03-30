@@ -3,7 +3,9 @@ This is the Project repository for the UZH Module "Advanced Machine Learning".
 
 Possible Projects as baselines: https://github.com/Bhavik-Jikadara/fake-news-detections
 - uses the '''https://www.kaggle.com/datasets/bhavikjikadara/fake-news-detection''' as Dataset
-- Kaggle has many different Datasets for Fake News detection/classification, we choose this one in particular, because it has a usability score of 10/10 and it seems to be well maintained.
+    - Kaggle has many different Datasets for Fake News detection/classification, we choose this one in particular, because it has a usability score of 10/10 and it seems to be well maintained.
+    - Fake News: This Data spans the years 2015-2018 in News (39%) and Politics (29%) and Others (32%), a total of 23.5k entries.
+    - True News: This Data spans the years 2016-2017 in PoliticsNews (53%) and worldnews (47%), a total of 21.4k entries.
 
 
 ### Formal Problem Setting: (Draft)
