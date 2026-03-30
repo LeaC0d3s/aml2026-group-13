@@ -28,7 +28,7 @@ where $y = 1$ denotes fake news and $y = 0$ denotes real news.
 
 #### Goal:
 
-Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of seventy percent for training, fifteen percent for validation, and fifteen percent for final testing. To measure the model’s ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric. Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall.
+Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for final testing. To measure the model’s ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric. Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall.
 
 #### Proposed Approach: Hybrid Transformer-Linguistic Fusion
 
