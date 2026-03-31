@@ -28,7 +28,7 @@ where $y = 1$ denotes fake news and $y = 0$ denotes real news.
 
 #### Goal:
 
-Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for testing. The validation set is exclusivly used for hyperparameter tuning, while the test set is used for final evaluation. We will tune hyperparameters such as the learning rate (0.01, 0.001, 0.001), dropout rate (no drop out, 0.1, 0.5), etc. on the validation set to ensure that the hand-crafted features effectively complement the transformer’s learned representations. 
+Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for testing. The validation set is exclusivly used for hyperparameter tuning, while the test set is used for final evaluation. We will tune hyperparameters such as the learning rate (0.01, 0.001, 0.001), dropout rate (no drop out, 0.1, 0.5), etc. on the validation set to ensure that the hand-crafted features effectively complement the transformer’s learned representations. To find the best combination of hyperparameters we use huggingface hyperparameter_search().
 
 #### Proposed Approach: Hybrid Transformer-Linguistic Fusion
 
