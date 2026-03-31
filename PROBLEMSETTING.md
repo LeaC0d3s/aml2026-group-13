@@ -38,7 +38,8 @@ The first branch is the contextual branch, where we use DistilBERT to extract a 
 
 #### Evaluation Protocoll:
 We use the held out 15% testing set for this evaluation.
-To measure the model’s ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric. Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall.
+In our scenario, we want to detect fake news, and we don't want real news classified as fake news. So we will optimize for Precision.
+Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall. And to measure the model’s general ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric.
 
 #### Benchmarking:
 We will benchmark this hybrid model against two specific baselines: a vanilla DistilBERT model to quantify the performance gain provided by our linguistic feature injection, and a Random Forest classifier using TF-IDF features to establish a traditional statistical baseline.
