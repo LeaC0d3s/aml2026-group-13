@@ -8,7 +8,7 @@ Possible Projects as baselines: https://github.com/Bhavik-Jikadara/fake-news-det
     - True News: This Data spans the years 2016-2017 in PoliticsNews (53%) and worldnews (47%), a total of 21.4k entries.
 
 
-### Formal Problem Setting: (Draft)
+### Formal Problem Setting:
 
 We define the task of fake news detection as a supervised binary classification problem on natural language sequences. In this setting, we are given a news article represented as a sequence of tokens. Our objective is to learn a mapping function that takes both the sequence and a vector of hand-crafted linguistic features as input to predict a specific label. The output label represents the veracity of the article, where a value of one denotes fake news, representing fabricated or misleading content, and a value of zero denotes real news, representing verified factual reporting. The hand-crafted feature vector specifically captures external markers such as sentiment, readability, and lexical diversity extracted from the text.
 
@@ -26,18 +26,18 @@ $$f_{\boldsymbol{\theta}} : (\mathbf{x}, \mathbf{z}) \rightarrow \hat{y} \in \{0
 
 where $y = 1$ denotes fake news and $y = 0$ denotes real news.
 
-#### Goal:
-
-Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for testing. The validation set is exclusivly used for hyperparameter tuning, while the test set is used for final evaluation. We will tune hyperparameters such as the learning rate (0.01, 0.001, 0.001), dropout rate (no drop out, 0.1, 0.5), etc. on the validation set to ensure that the hand-crafted features effectively complement the transformer’s learned representations. To find the best combination of hyperparameters we use huggingface hyperparameter_search().
-
 #### Proposed Approach: Hybrid Transformer-Linguistic Fusion
 
 We propose a hybrid architecture that combines deep contextual embeddings with explicit linguistic markers to identify patterns common in misinformation. Standard transformer fine-tuning relies solely on the latent representation of the classification token. However, fake news often utilizes specific emotional triggers and simplified language structures to increase virality. Our approach modifies the standard architecture by creating two distinct processing branches.
 
-The first branch is the contextual branch, where we use DistilBERT to extract a 768 dimensional contextual vector from the article. The second branch is the linguistic branch, where we calculate an auxiliary feature vector containing sentiment polarity to capture the emotional charge of sensationalist news and the Gunning Fog Index to measure the readability and complexity of the text. Instead of feeding the transformer output directly to the classification layer, we concatenate the contextual and linguistic vectors into a single hybrid representation. This fused vector is then passed through a multi-layer perceptron with dropout to produce the final classification.
+The first branch is the contextual branch, where we use DistilBERT to extract a 768 dimensional contextual vector from the article. The second branch is the linguistic branch, where we calculate an auxiliary feature vector containing sentiment polarity to capture the emotional charge of sensationalist news and the Gunning Fog Index to measure the readability and complexity of the text. Instead of feeding the transformer output directly to the classification layer, we find a optimal way to merge the contextual and linguistic vectors into a single hybrid representation. This final vector is then passed through a multi-layer perceptron with dropout to produce the final classification.
 
+#### Hyperparameter Tuning:
+
+We will tune hyperparameters such as the learning rate (0.01, 0.001, 0.001), dropout rate (no drop out, 0.1, 0.5), etc. on the validation set to ensure that the hand-crafted features effectively complement the transformer’s learned representations. To find the best combination of hyperparameters we use huggingface hyperparameter_search().
+ 
 #### Evaluation Protocoll:
-We use the held out 15% testing set for this evaluation.
+Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for testing. The validation set is exclusivly used for hyperparameter tuning, while the test set is used for final evaluation.
 In our scenario, we want to detect fake news, and we don't want real news classified as fake news. So we will optimize for Precision.
 Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall. And to measure the model’s general ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric.
 
