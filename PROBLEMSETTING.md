@@ -28,7 +28,7 @@ where $y = 1$ denotes fake news and $y = 0$ denotes real news.
 
 #### Goal:
 
-Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for testing. The validation set is exclusivly used for hyperparameter tuning, while the test set is used for final evaluation. We will tune hyperparameters such as the learning rate, dropout rate, etc. on the validation set to ensure that the hand-crafted features effectively complement the transformer’s learned representations. 
+Our goal is to find the optimal model parameters that minimize the empirical risk on the training data to approximate the true risk. We will evaluate the model's performance using a stratified split consisting of 70% for training, 15% for validation, and 15% for testing. The validation set is exclusivly used for hyperparameter tuning, while the test set is used for final evaluation. We will tune hyperparameters such as the learning rate (0.01, 0.001, 0.001), dropout rate (no drop out, 0.1, 0.5), etc. on the validation set to ensure that the hand-crafted features effectively complement the transformer’s learned representations. 
 
 #### Proposed Approach: Hybrid Transformer-Linguistic Fusion
 
@@ -37,6 +37,8 @@ We propose a hybrid architecture that combines deep contextual embeddings with e
 The first branch is the contextual branch, where we use DistilBERT to extract a 768 dimensional contextual vector from the article. The second branch is the linguistic branch, where we calculate an auxiliary feature vector containing sentiment polarity to capture the emotional charge of sensationalist news and the Gunning Fog Index to measure the readability and complexity of the text. Instead of feeding the transformer output directly to the classification layer, we concatenate the contextual and linguistic vectors into a single hybrid representation. This fused vector is then passed through a multi-layer perceptron with dropout to produce the final classification.
 
 #### Evaluation Protocoll:
+We use the held out 15% testing set for this evaluation.
 To measure the model’s ability to separate classes effectively, especially if the dataset is imbalanced, we will use the Area Under the Receiver Operating Characteristic curve (AUROC) as our primary metric. Additionally, we will monitor the F1-Score to ensure a high-quality balance between precision and recall.
 
+#### Benchmarking:
 We will benchmark this hybrid model against two specific baselines: a vanilla DistilBERT model to quantify the performance gain provided by our linguistic feature injection, and a Random Forest classifier using TF-IDF features to establish a traditional statistical baseline.
