@@ -3,19 +3,9 @@
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 
-# Set the path to the file you'd like to load
-file_path = ""
+# Download latest version
+path = kagglehub.dataset_download("bhavikjikadara/fake-news-detection", output_dir="/home/renku/work/aml2026-group-13/datasets")
 
-# Load the latest version
-# Alternative Dataset: "abaghyangor/celebrity-tweets"
-df = kagglehub.load_dataset(
-  KaggleDatasetAdapter.PANDAS,
-  "bhavikjikadara/fake-news-detection",
-  file_path,
-  # Provide any additional arguments like 
-  # sql_query or pandas_kwargs. See the 
-  # documenation for more information:
-  # https://github.com/Kaggle/kagglehub/blob/main/README.md#kaggledatasetadapterpandas
-)
+print("Path to dataset files:", path)
 
-print("First 5 records:", df.head())
+  
