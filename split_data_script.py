@@ -7,8 +7,8 @@ df_true = pd.read_csv("aml2026-group-13/datasets/true.csv")
 print(df_fake.head(3), f"Total rows: {len(df_fake)}")
 print(df_true.head(3), f"Total rows: {len(df_true)}")
 # Add labels
-df_fake["label"] = 0
-df_true["label"] = 1
+df_fake["label"] = 1
+df_true["label"] = 0
 
 # Combine datasets
 df = pd.concat([df_fake, df_true], ignore_index=True)
