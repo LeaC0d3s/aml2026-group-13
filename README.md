@@ -4,5 +4,6 @@ This is Group 13, and our topic of choice is something about Fake News detection
 The Project Proposal is described in the file:
 - PROBLEMSETTING.md
 
+Project:
 
 - '''split_data_script.py''' --> used for train/dev/test split (70/15/15). Created Sets are saved in the '''datasets''' folder.
