@@ -6,9 +6,9 @@ import textstat
 import re
 
 # loading splitted data
-train_df = pd.read_csv("train.csv")
-dev_df   = pd.read_csv("dev.csv")
-test_df  = pd.read_csv("test.csv")
+train_df = pd.read_csv("datasets/train.csv")
+dev_df   = pd.read_csv("datasets/dev.csv")
+test_df  = pd.read_csv("datasets/test.csv")
 
 # cleaning text (removing URLs and extra whitespace)
 def clean_text(text):
@@ -64,8 +64,8 @@ print(train_df[feature_cols + ["label"]].describe())
 print("\nNull counts:", train_df[feature_cols].isnull().sum().to_dict())
 
 # Save new dataframes with features
-train_df.to_csv("train_features.csv", index=False)
-dev_df.to_csv("dev_features.csv",     index=False)
-test_df.to_csv("test_features.csv",   index=False)
+train_df.to_csv("datasets/train_features.csv", index=False)
+dev_df.to_csv("datasets/dev_features.csv",     index=False)
+test_df.to_csv("datasets/test_features.csv",   index=False)
 
 print("\nSaved → train_features.csv, dev_features.csv, test_features.csv")

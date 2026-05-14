@@ -5,15 +5,26 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import precision_score, f1_score, roc_auc_score, classification_report
 from scipy.sparse import hstack, csr_matrix
+from sklearn.model_selection import KFold, cross_val_score
 
 # csv with features
-train_df = pd.read_csv("train_features.csv")
-dev_df   = pd.read_csv("dev_features.csv")
-test_df  = pd.read_csv("test_features.csv")
+train_df = pd.read_csv("datasets/train_features.csv")
+dev_df   = pd.read_csv("datasets/dev_features.csv")
+test_df  = pd.read_csv("datasets/test_features.csv")
 
 text_col     = "text_clean"
 label_col    = "label"
 feature_cols = ["sentiment_textblob", "sentiment_vader", "gunning_fog", "lexical_diversity"]
+
+# Handle missing text values to prevent TF-IDF ValueError
+train_df[text_col] = train_df[text_col].fillna('')
+dev_df[text_col]   = dev_df[text_col].fillna('')
+test_df[text_col]  = test_df[text_col].fillna('')
+
+# Also clean linguistic features just in case
+train_df[feature_cols] = train_df[feature_cols].fillna(0)
+dev_df[feature_cols]   = dev_df[feature_cols].fillna(0)
+test_df[feature_cols]  = test_df[feature_cols].fillna(0)
 
 # TF-IDF
 tfidf = TfidfVectorizer(max_features=10000, ngram_range=(1, 2)) # change max_features if required
@@ -50,8 +61,7 @@ rf = RandomForestClassifier(random_state=42, n_jobs= 1)
 
 grid_search = GridSearchCV(
     rf,
-    param_grid,
-    n_iter = 15, # number of combinations to try 
+    param_grid, 
     scoring="precision",  
     cv=3,
     verbose=1,
@@ -80,3 +90,25 @@ print(f"F1 Score  : {f1:.4f}")
 print(f"AUROC     : {auroc:.4f}")
 print("\nDetailed report:")
 print(classification_report(y_test, y_pred, target_names=["Real", "Fake"]))
+
+y_dev_pred = best_rf.predict(X_dev)
+dev_precision = precision_score(y_dev, y_dev_pred)
+
+print("\n=== DEV SET RESULTS ===")
+print(f"Dev Precision: {dev_precision:.4f}")
+print("\nDev Classification Report:")
+print(classification_report(y_dev, y_dev_pred, target_names=["Real", "Fake"]))
+
+'''
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
+
+print("\n=== STABILITY CHECK: 5-FOLD CROSS-VALIDATION ===")
+# 2. Run the cross-validation
+# This tells us if the precision is consistent across different slices of data.
+cv_precision_scores = cross_val_score(best_rf, X_train, y_train, cv=kf, scoring='precision')
+
+# 3. Print the results
+print(f"Precision per fold: {cv_precision_scores}")
+print(f"Mean Precision: {cv_precision_scores.mean():.4f}")
+print(f"Standard Deviation (+/-): {cv_precision_scores.std():.4f}")
+'''

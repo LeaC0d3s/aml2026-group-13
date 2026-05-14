@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
-df_fake = pd.read_csv("aml2026-group-13/datasets/fake.csv")
-df_true = pd.read_csv("aml2026-group-13/datasets/true.csv")
+df_fake = pd.read_csv("/datasets/fake.csv")
+df_true = pd.read_csv("/datasets/true.csv")
 print(df_fake.head(3), f"Total rows: {len(df_fake)}")
 print(df_true.head(3), f"Total rows: {len(df_true)}")
 # Add labels
@@ -43,8 +43,8 @@ print("Dev:\n", dev_df["label"].value_counts(normalize=True))
 print("Test:\n", test_df["label"].value_counts(normalize=True))
 
 # Save splits
-train_df.to_csv("aml2026-group-13/datasets/train.csv", index=False)
-dev_df.to_csv("aml2026-group-13/datasets/dev.csv", index=False)
-test_df.to_csv("aml2026-group-13/datasets/test.csv", index=False)
+train_df.to_csv("/datasets/train.csv", index=False)
+dev_df.to_csv("/datasets/dev.csv", index=False)
+test_df.to_csv("/datasets/test.csv", index=False)
 
 print("\nDatasets saved successfully.")

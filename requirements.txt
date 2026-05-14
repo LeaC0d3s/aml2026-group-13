@@ -2,3 +2,9 @@ nltk
 scikit-learn
 streamlit
 kagglehub
+textblob
+scipy
+pandas
+numpy
+textstat
+vaderSentiment
