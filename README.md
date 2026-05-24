@@ -12,4 +12,7 @@ Project:
 - 
 - '''linguistic_features_aggressive.py''' returns the same 3 csv but cleaned up more agressively, because we noticed that under the origianl linguistic_features.py, the model was learning the wrong things, and it found 'cheatcodes' to classifying real/fake suspiciously well (illustrated in results_1.jpeg); results_2.png shows the results with the more aggresive clean up instead
 
+- '''baseline_noTFIDF.py''' --> Uses the aggressively cleaned dataset and the four linguistic features with Random Forest as a text-agnostic baseline.
+- '''baseline_model.py''' --> Combines TF-IDF and the 4 engineered linguistic features. Trains a Random Forest classifier.
+  
 - '''hybrid_model.py''' --> combines distilBERT and the 4 engineered features through a dynamic gate (uses the cleaned "xxxx_features.csv" datasets); see results_3.png
