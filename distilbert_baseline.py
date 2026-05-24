@@ -3,7 +3,7 @@ import torch.nn as nn
 import pandas as pd
 import numpy as np
 from torch.utils.data import Dataset
-from transformers import AutoTokenizer, AutoModel, TrainingArguments, Trainer
+from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification, TrainingArguments, Trainer
 from sklearn.metrics import precision_score, f1_score, roc_auc_score, classification_report 
 
 class FakeNewsTextDataset(Dataset):
@@ -69,7 +69,7 @@ def main():
     test_dataset = FakeNewsTextDataset("datasets_agressive/test_features.csv", tokenizer)
     
     # the custom model
-    model = AutoModel.from_pretrained(
+    model = AutoModelForSequenceClassification.from_pretrained(
         model_name,
         num_labels=2,
     )    
