@@ -8,5 +8,4 @@ pandas
 numpy
 textstat
 vaderSentiment
-torch
-transformers
+transformers[torch]
