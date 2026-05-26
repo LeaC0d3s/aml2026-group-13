@@ -113,15 +113,13 @@ def compute_metrics(eval_pred):
 
 def model_init(trial=None):
     dropout_rate = 0.1  # default
-    if trial is not None:
-        dropout_rate = trial.suggest_categorical("dropout_rate", [0, 0.1, 0.5])
+    dropout_rate = trial.suggest_categorical("dropout_rate", [0.0, 0.1, 0.5]) if trial else 0.1
     return GatedHybridClassifier(transformer_model_name="distilbert-base-uncased", ling_dim=4, drop_out_rate=dropout_rate)
 
 def hp_space(trial): # defining the hyperparameter search space
     return {
         "learning_rate": trial.suggest_categorical("learning_rate", [0.01, 0.001, 0.0001]),
-        "dropout_rate": trial.suggest_categorical("dropout_rate", [0, 0.1, 0.5]),
-        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [16, 32, 64, 128]),
+        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16, 32]),
     }
 
 def compute_objective(metrics):
@@ -178,7 +176,7 @@ def main():
     print(f"Best Hyperparameters: {best_run.hyperparameters}")
     
     best_lr = best_run.hyperparameters["learning_rate"]
-    best_dropout = best_run.hyperparameters["dropout_rate"]
+    best_dropout = best_run.hyperparameters.get("dropout_rate", 0.1)
     best_batch_size = best_run.hyperparameters["per_device_train_batch_size"]
     
     # create a model_init for final training with fixed best dropout rate
