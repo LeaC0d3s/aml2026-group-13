@@ -112,7 +112,6 @@ def compute_metrics(eval_pred):
     }
 
 def model_init(trial=None):
-    dropout_rate = 0.1  # default
     dropout_rate = trial.suggest_categorical("dropout_rate", [0.0, 0.1, 0.5]) if trial else 0.1
     return GatedHybridClassifier(transformer_model_name="distilbert-base-uncased", ling_dim=4, drop_out_rate=dropout_rate)
 
