@@ -8,4 +8,6 @@ pandas
 numpy
 textstat
 vaderSentiment
-transformers[torch]
+optuna
+torch
+transformers
