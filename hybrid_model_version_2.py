@@ -112,13 +112,14 @@ def compute_metrics(eval_pred):
     }
 
 def model_init(trial=None):
-    dropout_rate = trial.suggest_categorical("dropout_rate", [0.0, 0.1, 0.5]) if trial else 0.1
+    dropout_rate = trial.params.get("dropout_rate", 0.1) if (trial and hasattr(trial, "params")) else 0.1
     return GatedHybridClassifier(transformer_model_name="distilbert-base-uncased", ling_dim=4, drop_out_rate=dropout_rate)
 
 def hp_space(trial): # defining the hyperparameter search space
     return {
+        "dropout_rate": trial.suggest_categorical("dropout_rate", [0.0, 0.1, 0.5]),
         "learning_rate": trial.suggest_categorical("learning_rate", [0.01, 0.001, 0.0001]),
-        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16, 32]),
+        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16]),
     }
 
 def compute_objective(metrics):
