@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification, TrainingArguments, Trainer
 from sklearn.metrics import precision_score, f1_score, roc_auc_score, classification_report 
 
+#Note: in some cases it might throw an error if you already have a folder called "datasets" becuase the paths get mixed up internally, so just rename that folder and it should work.
 class FakeNewsTextDataset(Dataset):
     """
     Standard text-only dataset for DistilBERT.
@@ -60,10 +61,12 @@ def compute_metrics(eval_pred):
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Running training on: {device}")
-    
+
+    #define model name
     model_name = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    
+
+    #process datasets for model input
     train_dataset = FakeNewsTextDataset("datasets_agressive/train_features.csv", tokenizer)
     dev_dataset = FakeNewsTextDataset("datasets_agressive/dev_features.csv", tokenizer)
     test_dataset = FakeNewsTextDataset("datasets_agressive/test_features.csv", tokenizer)
@@ -79,7 +82,7 @@ def main():
         num_train_epochs=3,
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
-        eval_strategy="epoch",
+        eval_strategy="epoch", #version dependant variable name: "evaluation_strategy" -> "eval_strategy"
         save_strategy="epoch",
         learning_rate=2e-5,
         weight_decay=0.01,
