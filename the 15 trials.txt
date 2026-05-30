@@ -1,0 +1,46 @@
+﻿Started Hyperparameter Search…
+
+
+[I 2026-05-27 06:55:50,074] Trial 0 finished with value: 0.031560178846120834 and parameters: {'dropout_rate': 0.1, 'learning_rate': 0.0001, 'per_device_train_batch_size': 8}. Best is trial 0 with value: 0.031560178846120834.
+
+
+[I 2026-05-27 08:39:28,561] Trial 1 finished with value: 0.034867264330387115 and parameters: {'dropout_rate': 0.0, 'learning_rate': 0.0001, 'per_device_train_batch_size': 8}. Best is trial 0 with value: 0.031560178846120834.
+
+
+[I 2026-05-27 10:24:03,521] Trial 2 finished with value: 0.034867264330387115 and parameters: {'dropout_rate': 0.0, 'learning_rate': 0.0001, 'per_device_train_batch_size': 8}. Best is trial 0 with value: 0.031560178846120834.
+
+
+[I 2026-05-27 12:05:37,395] Trial 3 finished with value: 0.6628661155700684 and parameters: {'dropout_rate': 0.5, 'learning_rate': 0.01, 'per_device_train_batch_size': 8}. Best is trial 0 with value: 0.031560178846120834.
+
+
+[I 2026-05-27 13:42:48,391] Trial 4 finished with value: 0.022228000685572624 and parameters: {'dropout_rate': 0.0, 'learning_rate': 0.0001, 'per_device_train_batch_size': 16}. Best is trial 4 with value: 0.022228000685572624.
+
+
+[I 2026-05-27 14:17:03,122] Trial 5 pruned. Batch:8
+
+
+​​[I 2026-05-27 14:52:48,725] Trial 6 pruned. Batch: 8
+
+
+[I 2026-05-27 15:25:38,090] Trial 7 pruned. Batch: 16
+
+
+[I 2026-05-27 15:56:06,552] Trial 8 pruned. Batch: 16
+
+
+[I 2026-05-27 16:27:46,596] Trial 9 pruned. Batch: 16
+
+
+[I 2026-05-27 16:58:15,435] Trial 10 pruned. Batch: 16
+
+
+[I 2026-05-27 17:29:55,623] Trial 11 pruned. Batch:16
+
+
+[I 2026-05-27 18:01:35,805] Trial 12 pruned. Batch: 16
+
+
+[I 2026-05-27 18:35:42,640] Trial 13 pruned. Batch: 8
+
+
+[I 2026-05-27 20:10:46,230] Trial 14 finished with value: 0.022228000685572624 and parameters: {'dropout_rate': 0.0, 'learning_rate': 0.0001, 'per_device_train_batch_size': 16}. Best is trial 4 with value: 0.022228000685572624.
