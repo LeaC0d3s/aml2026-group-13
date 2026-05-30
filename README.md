@@ -15,4 +15,4 @@ Project:
 - '''baseline_noTFIDF.py''' --> Uses the aggressively cleaned dataset and the four linguistic features with Random Forest as a text-agnostic baseline.
 - '''baseline_model.py''' --> Combines TF-IDF and the 4 engineered linguistic features. Trains a Random Forest classifier.
   
-- '''hybrid_model.py''' --> combines distilBERT and the 4 engineered features through a dynamic gate (uses the cleaned "xxxx_features.csv" datasets); see results_3.png
+- '''hybrid_model.py''' --> combines distilBERT and the 4 engineered features through a dynamic gate (uses the cleaned "xxxx_features.csv" datasets); see finalresults.png
