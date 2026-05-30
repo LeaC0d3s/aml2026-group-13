@@ -11,6 +11,7 @@ Project:
 - '''linguistic_features.py''' returns a cleaned up version of train.csv, test.csv and dev.csv --> train_features.csv, test_features.csv and dev_features.csv respectfully
   
 - '''linguistic_features_aggressive.py''' returns the same 3 csv but cleaned up more agressively, because we noticed that under the origianl linguistic_features.py, the model was learning the wrong things, and it found 'cheatcodes' to classifying real/fake suspiciously well (illustrated in results_1.jpeg); results_2.png shows the results with the more aggresive clean up instead
+- '''distilbert_baseline.py''' --> trains a simple distilbert classifyer model without any extra features.
 
 - '''baseline_noTFIDF.py''' --> Uses the aggressively cleaned dataset and the four linguistic features with Random Forest as a text-agnostic baseline. [View Random Forest 4-Feature Results](results/Results4FeaturesRF.jpeg)
 - '''baseline_model.py''' --> Combines TF-IDF and the 4 engineered linguistic features. Trains a Random Forest classifier.
