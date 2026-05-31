@@ -5,7 +5,7 @@ import numpy as np
 from torch.utils.data import Dataset
 from transformers import AutoTokenizer, AutoModel, TrainingArguments, Trainer
 from sklearn.metrics import precision_score, f1_score, roc_auc_score, classification_report
-import optuna
+import optuna # optuna models historical trial data to prune dead branches and settle on the best parameters faster
 
 # custom dataset matching Hugging Face expectations
 class HybridFakeNewsDataset(Dataset):
@@ -14,13 +14,14 @@ class HybridFakeNewsDataset(Dataset):
         self.tokenizer = tokenizer
         self.max_len = max_len
         
-        # match feature columns from linguisticfeatures.py
+        # match feature columns from linguistic_features(_aggressive).py
         self.feature_cols = ["sentiment_textblob", "sentiment_vader", "gunning_fog", "lexical_diversity"]
         
-        # handle any stray NaNs just in case
+        # handle any stray NaNs just in case although there should not be any due to the clean up
         self.df["text_clean"] = self.df["text_clean"].fillna("")
         self.df[self.feature_cols] = self.df[self.feature_cols].fillna(0)
-        
+
+        # make sure we have float32 not float64
         self.texts = self.df["text_clean"].values
         self.linguistic_features = self.df[self.feature_cols].values.astype(np.float32)
         self.labels = self.df["label"].values
@@ -28,6 +29,7 @@ class HybridFakeNewsDataset(Dataset):
     def __len__(self):
         return len(self.texts)
 
+     # make sure numbers in the texts are parsed as strings, not floats
     def __getitem__(self, idx):
         text = str(self.texts[idx])
         inputs = self.tokenizer(
@@ -50,21 +52,24 @@ class GatedHybridClassifier(nn.Module):
     def __init__(self, transformer_model_name="distilbert-base-uncased", ling_dim=4, drop_out_rate=0.1):
         super().__init__()
 
-        self.transformer = AutoModel.from_pretrained(transformer_model_name)
+        self.transformer = AutoModel.from_pretrained(transformer_model_name) # a pre-trained DistilBERT transformer base
         self.hidden_dim = self.transformer.config.hidden_size # 768 for DistilBERT
-        
+
+        #projection block that scales the 4-dimensional linguistic array up to a 768D space
         self.ling_projection = nn.Sequential(
             nn.Linear(ling_dim, self.hidden_dim),
             nn.LayerNorm(self.hidden_dim),
             nn.GELU()
         )
         
-        # this outputs a value between 0 and 1 for each dimension, acting as an attention mask over the linguistic features conditioned on the contextual vector
+        # this outputs a value between 0 and 1 for each dimension
+        # basically a slider that lets the model decide how much weight to give the raw text versus the linguistic features for any given sample
         self.gate_layer = nn.Sequential(
             nn.Linear(self.hidden_dim * 2, self.hidden_dim),
             nn.Sigmoid()
         )
-        
+
+        # output: 2 logits, for real and fake
         self.classifier = nn.Sequential(
             nn.Linear(self.hidden_dim, self.hidden_dim // 2),
             nn.ReLU(),
@@ -86,7 +91,6 @@ class GatedHybridClassifier(nn.Module):
         combined = torch.cat([cls_embedding, ling_embedded], dim=-1)
         gate = self.gate_layer(combined)
         
-        # apply gate for controlled information fusion -> the model balances raw text context with stylometric markers dynamically
         fused_vector = gate * cls_embedding + (1 - gate) * ling_embedded
         
         # final classification
@@ -111,6 +115,7 @@ def compute_metrics(eval_pred):
         "auroc": roc_auc_score(labels, probs)
     }
 
+# we need to be able to instantiate a fresh copy of the model, to adjust parameters based on the current optuna trial
 def model_init(trial=None):
     dropout_rate = trial.params.get("dropout_rate", 0.1) if (trial and hasattr(trial, "params")) else 0.1
     return GatedHybridClassifier(transformer_model_name="distilbert-base-uncased", ling_dim=4, drop_out_rate=dropout_rate)
@@ -119,7 +124,7 @@ def hp_space(trial): # defining the hyperparameter search space
     return {
         "dropout_rate": trial.suggest_categorical("dropout_rate", [0.0, 0.1, 0.5]),
         "learning_rate": trial.suggest_categorical("learning_rate", [0.01, 0.001, 0.0001]),
-        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16]),
+        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16]), # initially we had also the 32 option but we ran out of memory while training
     }
 
 def compute_objective(metrics):
@@ -179,7 +184,7 @@ def main():
     best_dropout = best_run.hyperparameters.get("dropout_rate", 0.1)
     best_batch_size = best_run.hyperparameters["per_device_train_batch_size"]
     
-    # create a model_init for final training with fixed best dropout rate
+    # create a model_init for final training with best parameters found by optuna
     def model_init_final(trial=None):
         return GatedHybridClassifier(transformer_model_name="distilbert-base-uncased", ling_dim=4, drop_out_rate=best_dropout)
     
